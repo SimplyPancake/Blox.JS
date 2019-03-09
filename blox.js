@@ -58,6 +58,7 @@ function checkSingle() {
   // For each block with 'blockSingle',
   // obtain its innerHTML and project it onto the 'block single' template
   // obtain its id to remove it.
+  // We want to count down instead of to count up, to avoid element shuffling around :D
   for (var i = 0; i < blockSingleElements.length; i++) {
     // 'element' is the current element.
     element = blockSingleElements[i];
