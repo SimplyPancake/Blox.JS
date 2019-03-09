@@ -4,10 +4,10 @@
 // ===================================================================================
 // TEMPLATES - TEMPLATES - TEMPLATES - TEMPLATES - TEMPLATES - TEMPLATES - TEMPLATES -
 // ===================================================================================
-function loadTemplates(blockType, templateFill) {
+function loadTemplates(blockType, templateFill, givenElId) {
   if (blockType === "single") {
     var template =
-      "<div class=\"singleContent\">" +
+      "<div class=\"singleContent\" id=\"" + givenElId + "\">" +
         "<div class=\"wsContainer\">" +
           templateFill
         "</div>" +
@@ -27,6 +27,12 @@ function throwError(errorCode) {
 // ===================================================================================
 // MAIN - MAIN - MAIN - MAIN - MAIN - MAIN - MAIN - MAIN - MAIN - MAIN - MAIN - MAIN -
 // ===================================================================================
+// ===================================================================================
+// MAIN - MAIN - MAIN - MAIN - MAIN - MAIN - MAIN - MAIN - MAIN - MAIN - MAIN - MAIN -
+// ===================================================================================
+// ===================================================================================
+// MAIN - MAIN - MAIN - MAIN - MAIN - MAIN - MAIN - MAIN - MAIN - MAIN - MAIN - MAIN -
+// ===================================================================================
 
 function drawBlock(blockType, contents) {
   // If the block type is a single one:
@@ -40,6 +46,10 @@ function drawBlock(blockType, contents) {
   }
 
 }
+
+// =========================================================================================
+// CHECK SINGLE - CHECK SINGLE - CHECK SINGLE - CHECK SINGLE - CHECK SINGLE - CHECK SINGLE -
+// =========================================================================================
 
 // This function checks if a single block is wanted.
 function checkSingle() {
@@ -64,11 +74,14 @@ function checkSingle() {
     innerElement = element.innerHTML;
     // console.log(innerElement);
     // Draw the new template with the contains of the element.
-    drawBlock("single", loadTemplates("single", innerElement));
+    // Also set the new drawn block to have an id, so that we can find it latrer.
+    drawBlock("single", loadTemplates("single", innerElement, elementId));
 
     // remove the old element (by id, not by class name).
     document.getElementById(elementId).remove();
 
+    // ==============================================================================
+    // BACKGROUND - BACKGROUND - BACKGROUND - BACKGROUND - BACKGROUND - BACKGROUND -
 
     // Now, we want to check if there's an image that has the 'background' id.
     // if it has that certain id, then we will set the style
@@ -77,12 +90,25 @@ function checkSingle() {
     // hasChild returns 'true' if there's a child present with the background id.
     // If hasChild is true, then check which element has the background id.
     if (hasChild) {
-      var possibleChild = document.getElementById("background");
-      // If the possible child div is in the parent, then set the style of the image.
-      if (parentDiv.contains(possibleChild)) {
-        var image = possibleChild;
-        console.log(image);
-      }
+      var backgroundImage = parentDiv.querySelector("#background");
+      console.log(backgroundImage);
+      // Now that we have found the image, we want to get its Url.
+      var imageUrl = backgroundImage.src;
+      console.log(imageUrl);
+
+      // With its url, the parent's style now has an background-image:
+      // We cannot use element, because it's used for the deleted HTML element. Not the one
+      // we're trying to have the style changed.
+      // So we need to define our styling element.
+      var singleContent = document.getElementById(elementId);
+      singleContent.setAttribute("style", "background-image: url(\"" + imageUrl + "\"); background-size: cover;");
+
+      // Now that we have set the background, we can remove the image.
+      // We can use the same trick as before, using the querySelector.
+      parentDiv = singleContent;
+      var backgroundImageElement = parentDiv.querySelector("#background");
+      backgroundImageElement.remove();
+
     }
   }
 }
