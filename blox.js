@@ -24,14 +24,14 @@ function loadTemplates(blockType, templateFill, givenElId, imgUrl) {
       "</div>";
       break;
 
-    case "doubleWallaper":
-      var template =
-      "<div class=\"doubleContent\" id=\"" + givenElId + "\" style=\"background-image: url('" + imgUrl + "'); background-size: cover;\">" +
-        "<div class=\"wsContainer\">" +
-          templateFill +
-        "</div>" +
-      "</div>";
-      break;
+    case "doubleWallpaper":
+    var template =
+    "<div class=\"doubleContent\" id=\"" + givenElId + "\" style=\"background-image: url('" + imgUrl + "'); background-size: cover;\">" +
+      "<div class=\"wsContainer\">" +
+        templateFill +
+      "</div>" +
+    "</div>";
+    break;
   }
 
   return template
@@ -224,7 +224,8 @@ function checkDouble() {
 
     switch (drawBackground) {
       case true:
-        drawBlock("double", loadTemplates("doubleWallpaper", innerElement, elementId, imageUrl));
+        var contents = loadTemplates("doubleWallpaper", innerElement, elementId, imageUrl);
+        drawBlock("double", contents);
 
         // var doubleContent = document.getElementById(elementId);
         // var image = doubleContent.querySelector("#background");
