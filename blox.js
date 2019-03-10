@@ -5,23 +5,33 @@
 // TEMPLATES - TEMPLATES - TEMPLATES - TEMPLATES - TEMPLATES - TEMPLATES - TEMPLATES -
 // ===================================================================================
 function loadTemplates(blockType, templateFill, givenElId, imgUrl) {
-  if (blockType === "single") {
-
+  switch (blockType) {
+    case "single":
     var template =
       "<div class=\"singleContent\" id=\"" + givenElId + "\">" +
         "<div class=\"wsContainer\">" +
           templateFill +
         "</div>" +
       "</div>";
+      break;
 
-  } else if (blockType === "singleWallpaper") {
-
+    case "singleWallpaper":
     var template =
       "<div class=\"singleContent\" id=\"" + givenElId + "\" style=\"background-image: url('" + imgUrl + "'); background-size: cover;\">" +
         "<div class=\"wsContainer\">" +
           templateFill +
         "</div>" +
       "</div>";
+      break;
+
+    case "doubleWallaper":
+      var template =
+      "<div class=\"doubleContent\" id=\"" + givenElId + "\" style=\"background-image: url('" + imgUrl + "'); background-size: cover;\">" +
+        "<div class=\"wsContainer\">" +
+          templateFill +
+        "</div>" +
+      "</div>";
+      break;
   }
 
   return template
@@ -31,6 +41,14 @@ function throwError(errorCode) {
   switch (errorCode) {
     case 001:
       throw new Error("Blox.JS: The element \"" + element + "\"is required to have an Id.")
+      break;
+
+    case 002:
+      throw new Error("Blox.JS: Your double element is required to have a background element in it.");
+      break;
+
+    case 003:
+      throw new Error("I don't know how I got there, but something went wrong.");
       break;
   }
 }
@@ -45,16 +63,24 @@ function throwError(errorCode) {
 // ===================================================================================
 
 function drawBlock(blockType, contents) {
-  // If the block type is a single one:
-  if (blockType === "single") {
-    var blockDiv;
+  var blockDiv;
 
-    blockDiv = document.createElement("div");
-    blockDiv.setAttribute('class', "blok");
-    document.body.appendChild(blockDiv);
-    blockDiv.innerHTML = contents;
+  switch (blockType) {
+    case "single":
+      blockDiv = document.createElement("div");
+      blockDiv.setAttribute('class', "blok");
+      document.body.appendChild(blockDiv);
+      blockDiv.innerHTML = contents;
+      break;
+
+    case "double":
+      blockDiv = document.createElement("div");
+      blockDiv.setAttribute('class', "blok")
+      document.body.appendChild(blockDiv);
+      blockDiv.innerHTML = contents;
+      break;
+
   }
-
 }
 
 // =========================================================================================
@@ -129,12 +155,89 @@ function checkSingle() {
         var singleContent = document.getElementById(elementId)
         var image = singleContent.querySelector("#background")
         image.remove();
-
         break;
+
       case false:
         drawBlock("single", loadTemplates("single", innerElement, elementId));
         break;
     }
 
   }
+}
+
+
+
+// =========================================================================================
+// CHECK DOUBLE - CHECK DOUBLE - CHECK DOUBLE - CHECK DOUBLE - CHECK DOUBLE - CHECK DOUBLE -
+// =========================================================================================
+
+function checkDouble() {
+  // Because this looks just like checksingle, I won't be documenting the things
+  // that do the same thing as checksingle
+
+  var blockDoubleElements = document.getElementsByClassName("blockDouble");
+  // console.log(blockDoubleElements);
+  var bdl = blockDoubleElements.length
+
+
+  for (var i = 0; i < bdl; i++) {
+    element = blockDoubleElements[0];
+
+    var elementId = element.id
+
+      if (elementId == "" || !elementId || elementId == null) {
+        throwError(001);
+        break;
+      }
+
+
+    innerElement = element.innerHTML;
+    console.log(innerElement);
+
+    // Drawbackground is set to true, because this block can only have an image
+    // as a background. Nothing else will be allowed.
+
+    var drawBackground = true;
+
+    // remove the old element (by id, not by class name).
+    document.getElementById(elementId).remove();
+
+    // ==============================================================================
+    // BACKGROUND - BACKGROUND - BACKGROUND - BACKGROUND - BACKGROUND - BACKGROUND -
+
+
+    var parentDiv = element;
+    var hasChild = parentDiv.querySelector("#background") != null;
+
+    // If haschild is false, then we will throw an error. This block can't have
+    // anything else but a background image.
+    if (hasChild == false) {
+      throwError(002);
+      break;
+    }
+
+    // We dont need to check if hasChild is true, because we already checked if false.
+    var backgroundImage = parentDiv.querySelector("#background");
+
+    var imageUrl = backgroundImage.src;
+
+
+    switch (drawBackground) {
+      case true:
+        drawBlock("double", loadTemplates("doubleWallpaper", innerElement, elementId, imageUrl));
+
+        // var doubleContent = document.getElementById(elementId);
+        // var image = doubleContent.querySelector("#background");
+        // image.remove();
+
+        break;
+      case false:
+        // It shouldn't get here...
+        throwError(003);
+        break;
+    }
+
+  }
+
+
 }
