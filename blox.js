@@ -4,12 +4,22 @@
 // ===================================================================================
 // TEMPLATES - TEMPLATES - TEMPLATES - TEMPLATES - TEMPLATES - TEMPLATES - TEMPLATES -
 // ===================================================================================
-function loadTemplates(blockType, templateFill, givenElId) {
+function loadTemplates(blockType, templateFill, givenElId, imgUrl) {
   if (blockType === "single") {
+
     var template =
       "<div class=\"singleContent\" id=\"" + givenElId + "\">" +
         "<div class=\"wsContainer\">" +
-          templateFill
+          templateFill +
+        "</div>" +
+      "</div>";
+
+  } else if (blockType === "singleWallpaper") {
+
+    var template =
+      "<div class=\"singleContent\" id=\"" + givenElId + "\" style=\"background-image: url('" + imgUrl + "'); background-size: cover;\">" +
+        "<div class=\"wsContainer\">" +
+          templateFill +
         "</div>" +
       "</div>";
   }
@@ -76,7 +86,8 @@ function checkSingle() {
     // console.log(innerElement);
     // Draw the new template with the contains of the element.
     // Also set the new drawn block to have an id, so that we can find it latrer.
-    drawBlock("single", loadTemplates("single", innerElement, elementId));
+    var drawBackground = false;
+
 
     // remove the old element (by id, not by class name).
     document.getElementById(elementId).remove();
@@ -88,28 +99,39 @@ function checkSingle() {
     // if it has that certain id, then we will set the style
     var parentDiv = element;
     var hasChild = parentDiv.querySelector("#background") != null;
+
     // hasChild returns 'true' if there's a child present with the background id.
     // If hasChild is true, then check which element has the background id.
+    var imageUrl
+
     if (hasChild) {
       var backgroundImage = parentDiv.querySelector("#background");
-      console.log(backgroundImage);
+      // console.log(backgroundImage);
+
       // Now that we have found the image, we want to get its Url.
-      var imageUrl = backgroundImage.src;
-      console.log(imageUrl);
+      imageUrl = backgroundImage.src;
+      // console.log(imageUrl);
 
-      // With its url, the parent's style now has an background-image:
-      // We cannot use element, because it's used for the deleted HTML element. Not the one
-      // we're trying to have the style changed.
-      // So we need to define our styling element.
-      var singleContent = document.getElementById(elementId);
-      singleContent.setAttribute("style", "background-image: url(\"" + imageUrl + "\"); background-size: cover;");
+      // We set drawbackground to true, and just fill in the template with an extra image in it.
+      drawBackground = true;
+    }
 
-      // Now that we have set the background, we can remove the image.
-      // We can use the same trick as before, using the querySelector.
-      parentDiv = singleContent;
-      var backgroundImageElement = parentDiv.querySelector("#background");
-      backgroundImageElement.remove();
+    console.log(drawBackground);
+    switch (drawBackground) {
+      case true:
+        drawBlock("single", loadTemplates("singleWallpaper", innerElement, elementId, imageUrl));
+
+        // Now we remove the old image
+        var singleContent = document.getElementById("BS1")
+        var image = singleContent.querySelector("#background")
+        image.remove();
+
+        break;
+      case false:
+        drawBlock("single", loadTemplates("single", innerElement, elementId));
+        break;
 
     }
+
   }
 }
