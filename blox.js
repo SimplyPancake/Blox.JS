@@ -65,21 +65,27 @@ function drawBlock(blockType, contents) {
 function checkSingle() {
   // Check every element if it has the class as 'blockSingle'...
   var blockSingleElements = document.getElementsByClassName("blockSingle");
+  console.log(blockSingleElements);
+
   // For each block with 'blockSingle',
   // obtain its innerHTML and project it onto the 'block single' template
   // obtain its id to remove it.
-  // We want to count down instead of to count up, to avoid element shuffling around :D
-  for (var i = 0; i < blockSingleElements.length; i++) {
+  for (var i = 0; i <= blockSingleElements.length; i++) {
     // 'element' is the current element.
-    element = blockSingleElements[i];
+    console.log(blockSingleElements);
+
+    // Dont understand completely how it works... but it works ok!
+    element = blockSingleElements[0];
 
     // get the elements id
-    var elementId = element.id
+    // var elementId = element.id
     // If the element doesn't have an id, then throw an error.
-    if (elementId == "") {
-      throwError(001);
-      break;
-    }
+      if (element.id == "" || !element.id || element.id == null) {
+        throwError(001);
+        break;
+      }
+
+    elementId = element.id
 
     // Get the contains of the element:
     innerElement = element.innerHTML;
@@ -116,13 +122,14 @@ function checkSingle() {
       drawBackground = true;
     }
 
-    console.log(drawBackground);
+    // console.log(drawBackground);
+
     switch (drawBackground) {
       case true:
         drawBlock("single", loadTemplates("singleWallpaper", innerElement, elementId, imageUrl));
 
         // Now we remove the old image
-        var singleContent = document.getElementById("BS1")
+        var singleContent = document.getElementById(elementId)
         var image = singleContent.querySelector("#background")
         image.remove();
 
@@ -130,7 +137,6 @@ function checkSingle() {
       case false:
         drawBlock("single", loadTemplates("single", innerElement, elementId));
         break;
-
     }
 
   }
