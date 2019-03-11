@@ -91,15 +91,7 @@ var elements = document.getElementsByTagName('div');
 
 // This function checks if a single block is wanted.
 function checkSingle(element) {
-  // Check every element if it has the class as 'blockSingle'...
-  var blockSingleElements = document.getElementsByClassName("blockSingle");
-  // console.log(blockSingleElements);
-  var bsl = blockSingleElements.length
-
-  // For each block with 'blockSingle',
-  // obtain its innerHTML and project it onto the 'block single' template
-  // obtain its id to remove it.
-  // for (var i = 0; i < bsl; i++) {
+  // We already have the element, so now we need to check if it is a blocksingle.
   if (element.className == "blockSingle") {
     // 'element' is the current element.
     // Dont understand completely how it works... but it works ok!
@@ -175,15 +167,6 @@ function checkSingle(element) {
 // =========================================================================================
 
 function checkDouble(element) {
-  // Because this looks just like checksingle, I won't be documenting the things
-  // that do the same thing as checksingle
-
-  var blockDoubleElements = document.getElementsByClassName("blockDouble");
-  // console.log(blockDoubleElements);
-  var bdl = blockDoubleElements.length
-
-
-  // for (var i = 0; i < bdl; i++) {
   if (element.className == "blockDouble") {
 
     // element = blockDoubleElements[0];
@@ -247,8 +230,12 @@ function checkDouble(element) {
 }
 
 
+
+// For every element, check if it is a double or single:
 for (var i = 0; i < elements.length; i++) {
   // console.log(elements[i]);
+  // This is always a zero, because when the element is transformed,
+  // then its first spot is lost and another element takes the zero.
   var currentEl = elements[0];
   checkSingle(currentEl);
   checkDouble(currentEl);
