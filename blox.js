@@ -37,10 +37,10 @@ function loadTemplates(blockType, templateFill, givenElId, imgUrl) {
   return template
 }
 
-function throwError(errorCode) {
+function throwError(errorCode, info) {
   switch (errorCode) {
     case 001:
-      throw new Error("Blox.JS: The element \"" + element + "\"is required to have an Id.")
+      throw new Error("Blox.JS: The element \"" + info + "\"is required to have an Id.")
       break;
 
     case 002:
@@ -87,27 +87,30 @@ function drawBlock(blockType, contents) {
 // CHECK SINGLE - CHECK SINGLE - CHECK SINGLE - CHECK SINGLE - CHECK SINGLE - CHECK SINGLE -
 // =========================================================================================
 
+var elements = document.getElementsByTagName('div');
+
 // This function checks if a single block is wanted.
-function checkSingle() {
+function checkSingle(element) {
   // Check every element if it has the class as 'blockSingle'...
   var blockSingleElements = document.getElementsByClassName("blockSingle");
-  console.log(blockSingleElements);
+  // console.log(blockSingleElements);
   var bsl = blockSingleElements.length
 
   // For each block with 'blockSingle',
   // obtain its innerHTML and project it onto the 'block single' template
   // obtain its id to remove it.
-  for (var i = 0; i < bsl; i++) {
+  // for (var i = 0; i < bsl; i++) {
+  if (element.className == "blockSingle") {
     // 'element' is the current element.
     // Dont understand completely how it works... but it works ok!
-    element = blockSingleElements[0];
+    // element = blockSingleElements[0];
 
     // get the elements id
     var elementId = element.id
     // If the element doesn't have an id, then throw an error.
       if (elementId == "" || !elementId || elementId == null) {
-        throwError(001);
-        break;
+        throwError(001, element);
+        // break;
       }
 
     // Get the contains of the element:
@@ -171,7 +174,7 @@ function checkSingle() {
 // CHECK DOUBLE - CHECK DOUBLE - CHECK DOUBLE - CHECK DOUBLE - CHECK DOUBLE - CHECK DOUBLE -
 // =========================================================================================
 
-function checkDouble() {
+function checkDouble(element) {
   // Because this looks just like checksingle, I won't be documenting the things
   // that do the same thing as checksingle
 
@@ -180,14 +183,16 @@ function checkDouble() {
   var bdl = blockDoubleElements.length
 
 
-  for (var i = 0; i < bdl; i++) {
-    element = blockDoubleElements[0];
+  // for (var i = 0; i < bdl; i++) {
+  if (element.className == "blockDouble") {
+
+    // element = blockDoubleElements[0];
 
     var elementId = element.id
 
       if (elementId == "" || !elementId || elementId == null) {
-        throwError(001);
-        break;
+        throwError(001, element);
+        // break;
       }
 
 
@@ -213,7 +218,7 @@ function checkDouble() {
     // anything else but a background image.
     if (hasChild == false) {
       throwError(002);
-      break;
+      // break;
     }
 
     // We dont need to check if hasChild is true, because we already checked if false.
@@ -239,6 +244,12 @@ function checkDouble() {
     }
 
   }
+}
 
 
+for (var i = 0; i < elements.length; i++) {
+  // console.log(elements[i]);
+  var currentEl = elements[0];
+  checkSingle(currentEl);
+  checkDouble(currentEl);
 }
