@@ -28,14 +28,16 @@ Double block (page wide) | blockDouble
 
 If you want your block to have a __background__, simply put in an __img element__ with the id __"background"__ and ofcourse a source.
 
-Before Blox.js:
+
+Here's an exmaple of how it should look like:
+Before:
 ```html
 <ul>
   <li>Item one</li>
   <li>Iten two</li>
 </ul>
     
-After Blox.js:
+After:
 
 <div class="blockDouble" id="uniqueID">
     <ul>
@@ -46,6 +48,6 @@ After Blox.js:
 </div>
 ```
 
-For questions, please contact me. If you have issues with Blox.JS functionality, please make a new issue in the Issues section.
+For questions, please contact me. If you have issues with Blox.JS functionality, please submit a new issue.
 
 
