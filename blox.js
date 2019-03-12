@@ -230,7 +230,6 @@ function checkDouble(element) {
 }
 
 
-
 // For every element, check if it is a double or single:
 for (var i = 0; i < elements.length; i++) {
   // console.log(elements[i]);

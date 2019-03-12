@@ -44,6 +44,14 @@ CONTENT - CONTENT - CONTENT - CONTENT - CONTENT - CONTENT - CONTENT - CONTENT -
   font-weight: 400;
   font-size: 2vw;
   text-align: center;
+
+  /* width: 50vw; */
+  height: 50vw;
+}
+
+.wsText {
+  top: 25%;
+  position: relative;
 }
 
 /* For regular images: */
