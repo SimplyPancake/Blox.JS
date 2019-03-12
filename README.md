@@ -33,7 +33,7 @@ Before Blox.js:
 <ul>
   <li>Item one</li>
   <li>Iten two</li>
-</ul>```
+</ul>
     
 After Blox.js:
 
@@ -44,6 +44,8 @@ After Blox.js:
     </ul>
     <img id="background" src="myImage.png">
 </div>
+```
 
+For questions, please contact me. If you have issues with Blox.JS functionality, please make a new issue in the Issues section.
 
 
