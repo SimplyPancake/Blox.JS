@@ -30,6 +30,7 @@ If you want your block to have a __background__, simply put in an __img element_
 
 
 Here's an exmaple of how it should look like:
+
 Before:
 ```html
 <ul>
