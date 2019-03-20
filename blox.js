@@ -171,7 +171,7 @@ function checkDouble(element) {
 
     // element = blockDoubleElements[0];
 
-    var elementId = element.id
+    var elementId = element.id;
 
       if (elementId == "" || !elementId || elementId == null) {
         throwError(001, element);
