@@ -215,9 +215,9 @@ function checkDouble(element) {
         var contents = loadTemplates("doubleWallpaper", innerElement, elementId, imageUrl);
         drawBlock("double", contents);
 
-        // var doubleContent = document.getElementById(elementId);
-        // var image = doubleContent.querySelector("#background");
-        // image.remove();
+        var doubleContent = document.getElementById(elementId);
+        var image = doubleContent.querySelector("#background");
+        image.remove();
 
         break;
       case false:
